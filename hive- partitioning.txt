@@ -1,0 +1,116 @@
+User-agent: *
+Allow: /
+Disallow: /subscription-confirm.html
+
+Sitemap: https://notepad-plus-plus.org/sitemap.xml
+Sitemap: https://notepad-plus-plus.org/community/sitemap.xml
+
+date functions:
+unix_timestamp(),
+from_timestamp(unix_timestamp()),
+from_utc_timestamp('2021-09-07 07:18:15','IST'),
+to_utc_timestamp('2021-09-07 07:18:15','IST'),
+
+
+
+
+
+
+TO_Date('2021-09-07 07:18:15'),
+WEEKOFYEAR('2021-09-07 07:18;15'),
+DateDiff('2021-09-07 '
+Date_Add
+Date_sub
+
+# Static Partition:
+
+vi stud_m
+vi_stud_f
+cat stud_m --- to check the content 
+cat stud_f ---- to check the content in stud_f
+
+----- move to hadoop -----
+hadoop fs -put stud_m
+hadoop fs -put stud_f
+
+------ create table ------
+create table stud(id int, age int, sal int) partitioned by gender string) row format demlimited fields terminated by ',';
+
+------ load data into table -----
+load data inpath 'stud_m' into table stud partition (gender='M') 
+load data inpath 'stud_f' into table stud partition (gender='F')
+
+---- check for the file location and content -------
+
+
+# Dynamic Partition:
+the partition is done automatically according to the number of classes or divisons
+checks for the number of unique values and further partitions 
+
+
+----- set dynamic partition ----
+set hive.exe.dynamic.partition = true;
+set hive.exec.dynamic.partiton.mode = nonstrict;
+
+---- create a salaries_p table ------
+create table salaries_p ( age int, sal int, pin int) partitioned by gender string) row format demlimited fields terminated by ',';
+
+---- insert values into the table ------
+insert overwrite table salaries_p partiton(gender) select age, salary, pin, gender from salaries;
+
+
+
+--------
+Bucketing : Data organising technique (also known as hashing in different instances)
+- its an IO performance tuning technique
+- similar to patitioning 
+
+vi databucket.sv
+cat databucket.csv
+
+
+#copy files in HDFS 
+hadoop fs - put databucket.csv
+
+
+#create database bucket & use bucket:
+create database bucket;
+use bucket;
+
+#enable hive, enforce bucketing 
+set hive.enforce.bucketing = true;
+
+# create table emp and load the file 'databucket'
+create table emp (id int, name string, age int, sal int) row format delimited fields terminated by ',';
+
+load data inpath 'databucket.csv' into table emp;
+
+# insert into the table emp_bucket 
+insert into table emp_bucket select id, name, age, sal from emp;
+
+
+----- scoop : to move data from rdbms to hdfs  
+
+# LINK: https://colab.research.google.com/drive/1GlZemDhtnkBP82wOeWSb7zuhJd-Rz1BJ#scrollTo=3FiVoORSd2r_
+
+-----------------------------------------------------------------------------------------------------
+MONGO DB 
+db.emp.find - emp is the collection onwhich we use the find function
+
+df.emp.find({Filter},{projection}) 
+example:  db.emp.find( {id: {$gt : 3}  }) - where id greater than(gt) 3 
+(gt, gte, lt, lte, et, ne) 
+
+df.emp.find( { }, {id:0, age:0} )
+df.emp.find( { }, {id:1, age:1} )
+df.empp.find( { }, {id:1, age:0, _id:0} )
+
+
+#sort function
+-1 desc, 1 asc
+
+
+
+
+
+
